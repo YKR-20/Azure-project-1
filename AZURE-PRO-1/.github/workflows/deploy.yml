@@ -13,6 +13,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Clean old files
+        uses: azure/cli@v1
+        with:
+          inlineScript: |
+            az storage blob delete-batch \
+              --account-name azureproject123 \
+              --source '$web' \
+              --account-key "${{ secrets.AZURE_STORAGE_KEY }}"
+
       - name: Upload files to Azure Storage
         uses: azure/cli@v1
         with:
